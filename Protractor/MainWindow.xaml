@@ -9,7 +9,7 @@
         ShowInTaskbar="False"
         AllowsTransparency="True"
         Background="Transparent"
-        WindowStartupLocation="CenterScreen "  
+        WindowStartupLocation="Manual "  
         Title="MainWindow" Height="200" Width="200"
         PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>

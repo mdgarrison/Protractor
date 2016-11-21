@@ -26,6 +26,9 @@ namespace WpfApplication1
         double value_BaseLine = 0.0;
         double value_PlumbLine = 0.0;
         double value_AngleIncrement = 0.01;
+        int value_WindowLeft = 0;
+        int value_WindowTop = 0;
+
         public enum OperationEnum
         {
             [Description("Opacity")]
@@ -38,6 +41,8 @@ namespace WpfApplication1
             Op_PlumbLine,
             [Description("Angle Increment")]
             Op_AngleIncrement,
+            [Description("Window Location")]
+            Op_WindowLocation,
             [Description("Exit")]
             Op_Exit
         };
@@ -84,6 +89,9 @@ namespace WpfApplication1
                     result = OperationEnum.Op_AngleIncrement;
                     break;
                 case OperationEnum.Op_AngleIncrement:
+                    result = OperationEnum.Op_WindowLocation;
+                    break;
+                case OperationEnum.Op_WindowLocation:
                     result = OperationEnum.Op_Exit;
                     break;
                 case OperationEnum.Op_Exit:
@@ -117,6 +125,12 @@ namespace WpfApplication1
             return result;
         }
 
+        private string DisplayWindowLocation()
+        {
+            string result = String.Format("{0}, {1}", value_WindowLeft, value_WindowTop);
+            return result;
+        }
+
         private void DisplayOperationText()
         {
             label.Content = GetEnumDescription(currentOperation);
@@ -135,6 +149,9 @@ namespace WpfApplication1
                     break;
                 case OperationEnum.Op_AngleIncrement:
                     label2.Content = DisplayAngleIncrement();
+                    break;
+                case OperationEnum.Op_WindowLocation:
+                    label2.Content = DisplayWindowLocation();
                     break;
                 case OperationEnum.Op_Exit:
                     break;
@@ -301,6 +318,9 @@ namespace WpfApplication1
                         value_AngleIncrement = 0.01;
                         label2.Content = DisplayAngleIncrement();
                         break;
+                    case OperationEnum.Op_WindowLocation:
+                        this.Top++;
+                        break;
                 }
 
             }
@@ -325,6 +345,9 @@ namespace WpfApplication1
                         value_AngleIncrement = 1.0;
                         label2.Content = DisplayAngleIncrement();
                         break;
+                    case OperationEnum.Op_WindowLocation:
+                        this.Top--;
+                        break;
                 }
             }
             else if (e.Key == Key.Left)
@@ -339,6 +362,9 @@ namespace WpfApplication1
                         value_PlumbLine = 0.0;
                         label2.Content = DisplayPlumbLine();
                         break;
+                    case OperationEnum.Op_WindowLocation:
+                        this.Left--;
+                        break;
                 }
             }
             else if (e.Key == Key.Right)
@@ -352,6 +378,9 @@ namespace WpfApplication1
                     case OperationEnum.Op_PlumbLine:
                         value_PlumbLine = 180.0;
                         label2.Content = DisplayPlumbLine();
+                        break;
+                    case OperationEnum.Op_WindowLocation:
+                        this.Left++;
                         break;
                 }
             }
@@ -384,6 +413,12 @@ namespace WpfApplication1
                 currentOperation = OperationEnum.Op_Exit;
                 DisplayOperationText();
                 label2.Content = String.Empty;
+            }
+            else if (e.Key == Key.W)
+            {
+                currentOperation = OperationEnum.Op_WindowLocation;
+                DisplayOperationText();
+                DisplayWindowLocation();
             }
             else if ((e.Key == Key.Enter) || (e.Key == Key.Return))
             {
