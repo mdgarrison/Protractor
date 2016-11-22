@@ -10,7 +10,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         WindowStartupLocation="Manual "  
-        Title="MainWindow" Height="200" Width="200"
+        Title="MainWindow" Height="200" Width="200" ResizeMode="NoResize"
         PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
         <ResourceDictionary>

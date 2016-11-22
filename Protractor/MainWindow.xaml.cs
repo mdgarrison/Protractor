@@ -22,12 +22,19 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        double min_Opacity = 0.01;
+        double max_Opacity = 1.00;
+        double value_OpacityIncrement = 0.01;
+
+        double min_Angle = 0.00;
+        double max_Angle = 359.99;
+
         double value_Opacity = 0.5;
         double value_BaseLine = 0.0;
         double value_PlumbLine = 0.0;
         double value_AngleIncrement = 0.01;
-        int value_WindowLeft = 0;
-        int value_WindowTop = 0;
+        double value_WindowLeft = 100;
+        double value_WindowTop = 100;
 
         public enum OperationEnum
         {
@@ -53,6 +60,9 @@ namespace WpfApplication1
         {
             InitializeComponent();
             label.Content = GetEnumDescription(currentOperation);
+            label2.Content = GetCurrentOperationValue(currentOperation);
+            Left = value_WindowLeft;
+            Top = value_WindowTop;
         }
 
         public static string GetEnumDescription(Enum value)
@@ -113,6 +123,12 @@ namespace WpfApplication1
             return result;
         }
 
+        private string DisplayColor()
+        {
+            string result = string.Empty;
+            return result;
+        }
+
         private string DisplayPlumbLine()
         {
             string result = String.Format("{0:0.00}", value_PlumbLine);
@@ -168,6 +184,7 @@ namespace WpfApplication1
             {
                 currentOperation = NextOperationEnum(currentOperation);
                 label.Content = GetEnumDescription(currentOperation);
+                label2.Content = GetCurrentOperationValue(currentOperation);
             }
             else
             {
@@ -177,7 +194,17 @@ namespace WpfApplication1
                 }
                 else
                 {
+                    if (currentOperation == OperationEnum.Op_WindowLocation)
+                    {
+                        label2.Content = String.Empty;
+                    }
                     this.DragMove();
+                    value_WindowTop = Top;
+                    value_WindowLeft = Left;
+                    if (currentOperation == OperationEnum.Op_WindowLocation)
+                    {
+                        label2.Content = DisplayWindowLocation();
+                    }
                 }
             }
         }
@@ -192,22 +219,52 @@ namespace WpfApplication1
             Application.Current.Shutdown();
         }
 
+        public string GetCurrentOperationValue(OperationEnum currentOp)
+        {
+            string result = string.Empty;
+
+            switch (currentOp)
+            {
+                case OperationEnum.Op_AngleIncrement:
+                    result = DisplayAngleIncrement();
+                    break;
+                case OperationEnum.Op_BaseLine:
+                    result = DisplayBaseLine();
+                    break;
+                case OperationEnum.Op_Color:
+                    result = DisplayColor();
+                    break;
+                case OperationEnum.Op_Exit:
+                    result = String.Empty;
+                    break;
+                case OperationEnum.Op_Opacity:
+                    result = DisplayOpacity();
+                    break;
+                case OperationEnum.Op_PlumbLine:
+                    result = DisplayPlumbLine();
+                    break;
+                case OperationEnum.Op_WindowLocation:
+                    result = DisplayWindowLocation();
+                    break;
+            }
+            return result;
+        }
         private void HandleBaseLineOperation(MouseWheelEventArgs e)
         {
             if (e.Delta > 0)
             {
                 value_BaseLine += value_AngleIncrement;
-                if (value_BaseLine >= 360.0)
+                if (value_BaseLine > max_Angle)
                 {
-                    value_BaseLine = 0.0;
+                    value_BaseLine = min_Angle;
                 }
             }
             else
             {
                 value_BaseLine -= value_AngleIncrement;
-                if (value_BaseLine <= 0.0)
+                if (value_BaseLine < min_Angle)
                 {
-                    value_BaseLine = 359.0;
+                    value_BaseLine = max_Angle;
                 }
             }
             label2.Content = DisplayBaseLine();
@@ -218,17 +275,17 @@ namespace WpfApplication1
             if (e.Delta > 0)
             {
                 value_PlumbLine += value_AngleIncrement;
-                if (value_PlumbLine >= 360.0)
+                if (value_PlumbLine > max_Angle)
                 {
-                    value_PlumbLine = 0.0;
+                    value_PlumbLine = min_Angle;
                 }
             }
             else
             {
                 value_PlumbLine -= value_AngleIncrement;
-                if (value_PlumbLine <= 0.0)
+                if (value_PlumbLine < min_Angle)
                 {
-                    value_PlumbLine = 359.0;
+                    value_PlumbLine = max_Angle;
                 }
             }
             mainCircle.Opacity = value_Opacity;
@@ -239,12 +296,12 @@ namespace WpfApplication1
         {
             if (e.Delta > 0)
             {
-                value_AngleIncrement += 0.05;
+                value_AngleIncrement += 0.01;
             }
             else
             {
-                value_AngleIncrement -= 0.05;
-                if (value_AngleIncrement <= 0.0)
+                value_AngleIncrement -= 0.01;
+                if (value_AngleIncrement < 0.0)
                 {
                     value_AngleIncrement = 0.0;
                 }
@@ -256,18 +313,18 @@ namespace WpfApplication1
         {
             if (e.Delta > 0)
             {
-                value_Opacity += 0.05;
-                if (value_Opacity >= 1.0)
+                value_Opacity += value_OpacityIncrement;
+                if (value_Opacity > max_Opacity)
                 {
-                    value_Opacity = 0.1;
+                    value_Opacity = min_Opacity;
                 }
             }
             else
             {
-                value_Opacity -= 0.05;
-                if (value_Opacity <= 0.1)
+                value_Opacity -= value_OpacityIncrement;
+                if (value_Opacity < min_Opacity)
                 {
-                    value_Opacity = 1.0;
+                    value_Opacity = max_Opacity;
                 }
             }
             mainCircle.Opacity = value_Opacity;
@@ -310,7 +367,7 @@ namespace WpfApplication1
                         label2.Content = DisplayPlumbLine();
                         break;
                     case OperationEnum.Op_Opacity:
-                        value_Opacity = 0.1;
+                        value_Opacity = min_Opacity;
                         mainCircle.Opacity = value_Opacity;
                         label2.Content = DisplayOpacity();
                         break;
@@ -319,7 +376,9 @@ namespace WpfApplication1
                         label2.Content = DisplayAngleIncrement();
                         break;
                     case OperationEnum.Op_WindowLocation:
-                        this.Top++;
+                        value_WindowTop++;
+                        this.Top = value_WindowTop;
+                        label2.Content = DisplayWindowLocation();
                         break;
                 }
 
@@ -337,7 +396,7 @@ namespace WpfApplication1
                         label2.Content = DisplayPlumbLine();
                         break;
                     case OperationEnum.Op_Opacity:
-                        value_Opacity = 1.0;
+                        value_Opacity = max_Opacity;
                         mainCircle.Opacity = value_Opacity;
                         label2.Content = DisplayOpacity();
                         break;
@@ -346,7 +405,9 @@ namespace WpfApplication1
                         label2.Content = DisplayAngleIncrement();
                         break;
                     case OperationEnum.Op_WindowLocation:
-                        this.Top--;
+                        value_WindowTop--;
+                        this.Top = value_WindowTop;
+                        label2.Content = DisplayWindowLocation();
                         break;
                 }
             }
@@ -363,7 +424,9 @@ namespace WpfApplication1
                         label2.Content = DisplayPlumbLine();
                         break;
                     case OperationEnum.Op_WindowLocation:
-                        this.Left--;
+                        value_WindowLeft--;
+                        this.Left = value_WindowLeft;
+                        label2.Content = DisplayWindowLocation();
                         break;
                 }
             }
@@ -380,7 +443,9 @@ namespace WpfApplication1
                         label2.Content = DisplayPlumbLine();
                         break;
                     case OperationEnum.Op_WindowLocation:
-                        this.Left++;
+                        value_WindowLeft++;
+                        this.Left = value_WindowLeft;
+                        label2.Content = DisplayWindowLocation();
                         break;
                 }
             }
@@ -418,7 +483,13 @@ namespace WpfApplication1
             {
                 currentOperation = OperationEnum.Op_WindowLocation;
                 DisplayOperationText();
-                DisplayWindowLocation();
+                label2.Content = DisplayWindowLocation();
+            }
+            else if (e.Key == Key.C)
+            {
+                currentOperation = OperationEnum.Op_Color;
+                DisplayOperationText();
+                label2.Content = DisplayColor();
             }
             else if ((e.Key == Key.Enter) || (e.Key == Key.Return))
             {
