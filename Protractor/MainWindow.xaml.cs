@@ -475,9 +475,16 @@ namespace WpfApplication1
             }
             else if (e.Key == Key.E)
             {
-                currentOperation = OperationEnum.Op_Exit;
-                DisplayOperationText();
-                label2.Content = String.Empty;
+                if (currentOperation == OperationEnum.Op_Exit)
+                {
+                    HandleExitOperation();
+                }
+                else
+                {
+                    currentOperation = OperationEnum.Op_Exit;
+                    DisplayOperationText();
+                    label2.Content = String.Empty;
+                }
             }
             else if (e.Key == Key.W)
             {
