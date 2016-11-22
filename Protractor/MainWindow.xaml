@@ -752,8 +752,8 @@
         <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="50,70,0,0" VerticalAlignment="Top" FontSize="10" Height="25" Width="100" HorizontalContentAlignment="Center" Foreground="White"/>
         <Label x:Name="label2" Content="Label" HorizontalAlignment="Left" Margin="50,104,0,0" VerticalAlignment="Top" FontSize="10" Height="25" Width="100" HorizontalContentAlignment="Center" Foreground="White"/>
         <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="Black" Margin="50,133,130,47"/>
-        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="#FF660707" Margin="75,133,105,47"/>
-        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="#FF1D5BBA" Margin="100,133,80,47"/>
-        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="Black" Margin="125,133,55,47"/>
+        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="#FF660707" Margin="77,133,103,47"/>
+        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="#FF1D5BBA" Margin="103,133,77,47"/>
+        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="Black" Margin="130,133,50,47"/>
     </Grid>
 </Window>
