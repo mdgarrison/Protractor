@@ -12,6 +12,14 @@
         WindowStartupLocation="Manual "  
         Title="MainWindow" Height="200" Width="200"
         PreviewKeyDown="Window_PreviewKeyDown">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources\GlassRoundButton.xaml"/>
+                <ResourceDictionary Source="Resources\GlassRectangleButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Ellipse x:Name="mainCircle" Fill="LightGray" HorizontalAlignment="Center" Height="200" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center" Width="200" MouseDown="Ellipse_MouseDown" MouseWheel="Ellipse_MouseWheel" Opacity="0.5"/>
         <Ellipse Fill="Black" HorizontalAlignment="Center" Height="1" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center" Width="1" MouseDown="Ellipse_MouseDown" Opacity="1"/>
@@ -735,9 +743,17 @@
                 </TransformGroup>
             </Line.RenderTransform>
         </Line>
+        <!--
         <Rectangle Height="22.776" Margin="49.822,0,50.178,71.724" Stroke="Black" StrokeThickness="1" VerticalAlignment="Bottom" RadiusY="10.888" RadiusX="10.888"/>
         <Rectangle Height="22.776" Margin="49.822,71.724,50.178,0" Stroke="Black" StrokeThickness="1" VerticalAlignment="Top" RadiusY="10.888" RadiusX="10.888"/>
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="63,72,0,0" VerticalAlignment="Top" FontSize="8" Height="22" Width="75" HorizontalContentAlignment="Center"/>
-        <Label x:Name="label2" Content="Label" HorizontalAlignment="Left" Margin="63,106,0,0" VerticalAlignment="Top" FontSize="8" Height="22" Width="75" HorizontalContentAlignment="Center"/>
+        -->
+        <Button Template="{DynamicResource GlassRectangleButton}" Height="22.776" Margin="49.822,0,50.178,71.724" VerticalAlignment="Bottom"/>
+        <Button Template="{DynamicResource GlassRectangleButton}" Height="22.776" Margin="49.822,71.724,50.178,0" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="50,70,0,0" VerticalAlignment="Top" FontSize="10" Height="25" Width="100" HorizontalContentAlignment="Center" Foreground="White"/>
+        <Label x:Name="label2" Content="Label" HorizontalAlignment="Left" Margin="50,104,0,0" VerticalAlignment="Top" FontSize="10" Height="25" Width="100" HorizontalContentAlignment="Center" Foreground="White"/>
+        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="Black" Margin="50,133,130,47"/>
+        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="#FF660707" Margin="75,133,105,47"/>
+        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="#FF1D5BBA" Margin="100,133,80,47"/>
+        <Button Style="{StaticResource GlassRoundButton}" Width="20" Height="20" Background="Black" Margin="125,133,55,47"/>
     </Grid>
 </Window>
